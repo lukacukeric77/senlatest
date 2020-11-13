@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+</head>
+<body>
+
+<div>
+    <form method="post" action="/download">
+        <label>
+            <input type="file" name="file">
+            <button>Upload</button>
+        </label>
+    </form>
+</div>
+
+    <table th:if="${file} != null">
+        <tr>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+        </tr>
+        <tr th:each="entry:${file}">
+            <td th:text="${entry.isbn}"></td>
+            <td th:text="${entry.title}"></td>
+            <td th:text="${entry.author}"></td>
+        </tr>
+    </table>
+
+
+</body>
+</html>
