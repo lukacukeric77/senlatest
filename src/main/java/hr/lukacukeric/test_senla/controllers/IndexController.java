@@ -54,8 +54,9 @@ public class IndexController {
             return modelAndView;
         }
         service.store(book);
+        modelAndView.addObject("books", service.getBookList());
         redirectAttributes.addFlashAttribute("message", "You successfully stored a new book");
-        return defaultView();
+        return modelAndView;
     }
 
     @PostMapping("remove/{isbn}")
