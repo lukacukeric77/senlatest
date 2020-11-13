@@ -15,20 +15,20 @@
     </form>
 </div>
 
-    <table th:if="${file} != null">
+    <table th:if="${books} != null">
         <tr>
             <th>ISBN</th>
             <th>Title</th>
             <th>Author</th>
         </tr>
-        <tr th:each="entry:${file}">
+        <tr th:each="entry:${books}">
             <td th:text="${entry.isbn}"></td>
             <td th:text="${entry.title}"></td>
             <td th:text="${entry.author}"></td>
         </tr>
     </table>
 
-<!--Adding  book form-->
+<!--Adding and editing book form-->
 
 <div>
     <form method="post" th:action="@{/addBook}" th:object="${book}">
@@ -54,7 +54,7 @@
 
 <!--Exporting in XML-->
 
-<div>
+<div th:if="${books} != null">
     <form method="post" th:action="@{/download}">
         <button>Download in XML</button>
     </form>

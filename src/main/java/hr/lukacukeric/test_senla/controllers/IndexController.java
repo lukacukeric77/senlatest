@@ -38,7 +38,7 @@ public class IndexController {
     public ModelAndView downloadFile(@RequestParam("file") MultipartFile xmlDoc) throws ParserConfigurationException, IOException, SAXException {
         ModelAndView modelAndView = new ModelAndView("index");
         service.loadResource(xmlDoc);
-        modelAndView.addObject( "file", service.getBookList());
+        modelAndView.addObject( "books", service.getBookList());
         return modelAndView;
     }
 
