@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface StorageService {
 
     void store(Book book);
-    void loadResource(MultipartFile filename) throws ParserConfigurationException, IOException, SAXException;
+    void loadResource(File filename) throws ParserConfigurationException, IOException, SAXException;
     MultipartFile createXml(List<Book> bookList);
-    List<Book> getBookList(List<Book> bookList);
+    List<Book> getBookList();
 }

@@ -16,6 +16,7 @@ import org.xml.sax.SAXException;
 
 import javax.validation.Valid;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 
 @Controller
@@ -29,14 +30,14 @@ public class IndexController {
     }
 
     @PostMapping("upload")
-    public String downloadFile(@RequestParam("file") MultipartFile xmlDoc) throws ParserConfigurationException, IOException, SAXException {
+    public String downloadFile(@RequestParam("file") File xmlDoc) throws ParserConfigurationException, IOException, SAXException {
         service.loadResource(xmlDoc);
         return null;
     }
 
     @GetMapping
     public ModelAndView showContent() throws ParserConfigurationException, IOException, SAXException {
-        return new ModelAndView("index", "file", service.getBookList(null));
+        return new ModelAndView("index", "file", service.getBookList());
 
     }
     @PostMapping("addBook")

@@ -29,10 +29,10 @@ public class DefaultStorageService implements StorageService{
     }
 
     @Override
-    public void loadResource(MultipartFile filename) throws ParserConfigurationException, IOException, SAXException {
+    public void loadResource(File filename) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse((File) filename);
+        Document document = builder.parse(filename);
         NodeList nodeList = document.getDocumentElement().getChildNodes();
         for (var i = 0; i<nodeList.getLength(); i++){
             Node node = nodeList.item(i);
@@ -47,8 +47,8 @@ public class DefaultStorageService implements StorageService{
     }
 
     @Override
-    public List<Book> getBookList(List<Book> bookList) {
-        return bookList;
+    public List<Book> getBookList() {
+        return books;
     }
 
     @Override
