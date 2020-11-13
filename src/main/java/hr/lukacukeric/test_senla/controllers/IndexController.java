@@ -33,17 +33,24 @@ public class IndexController {
 
     @GetMapping
     public ModelAndView showContent(){
-        return new ModelAndView("index", "file", service.load(null));
+        return new ModelAndView("index", "file", service.loadResource(null);
 
     }
-    @PostMapping("add")
+    @PostMapping("addBook")
     public String addBook(@Valid Book book, Errors errors, RedirectAttributes redirectAttributes){
         if (errors.hasErrors()){
-            return "index";
             redirectAttributes.addFlashAttribute("Error during upload");
+            return "index";
         }
         service.store(book);
+        redirectAttributes.addFlashAttribute("You successfully stored a new book");
+        return "index";
+    }
 
+    @PostMapping("download")
+    public String downloadAsXml(){
+        service.createXml(null);
+        return "index";
     }
 
 }
