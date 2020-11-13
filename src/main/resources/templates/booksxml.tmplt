@@ -1,0 +1,6 @@
+<Books>
+    <Book th:each="entry:${books}" th:attr="isbn=${entry.isbn}" >
+        <title th:text="${entry.title}"></title>
+        <author th:text="${entry.author}"></author>
+    </Book>
+</Books>

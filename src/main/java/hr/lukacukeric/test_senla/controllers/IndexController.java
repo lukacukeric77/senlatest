@@ -9,26 +9,33 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.function.ServerResponse;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import org.xml.sax.SAXException;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @Controller
 @RequestMapping("/")
 public class IndexController {
 
     private final StorageService service;
+    private final TemplateEngine engine;
 
-    public IndexController(StorageService service) {
+    public IndexController(StorageService service, TemplateEngine engine) {
         this.service = service;
+        this.engine = engine;
     }
 
     @GetMapping
-    public ModelAndView defaultView(){
+    public ModelAndView defaultView() {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("book", new Book("", "", ""));
         return modelAndView;
@@ -38,18 +45,17 @@ public class IndexController {
     public ModelAndView downloadFile(@RequestParam("file") MultipartFile xmlDoc) throws ParserConfigurationException, IOException, SAXException {
         ModelAndView modelAndView = new ModelAndView("index");
         service.loadResource(xmlDoc);
-        modelAndView.addObject( "books", service.getBookList());
+        modelAndView.addObject("books", service.getBookList());
         modelAndView.addObject("book", new Book("", "", ""));
         return modelAndView;
     }
 
 
     @PostMapping("addBook")
-    public ModelAndView addBook(@Valid Book book, Errors errors, RedirectAttributes redirectAttributes){
+    public ModelAndView addBook(@Valid Book book, Errors errors, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("books", service.getBookList());
-        modelAndView.addObject("book", new Book("", "", ""));
-        if (errors.hasErrors()){
+        if (errors.hasErrors()) {
             redirectAttributes.addFlashAttribute("message", "Error during adding");
             return modelAndView;
         }
@@ -60,7 +66,7 @@ public class IndexController {
     }
 
     @PostMapping("remove/{isbn}")
-    public ModelAndView removing(@PathVariable String isbn){
+    public ModelAndView removing(@PathVariable String isbn) {
         ModelAndView modelAndView = new ModelAndView("index");
         service.remove(isbn);
         modelAndView.addObject("books", service.getBookList());
@@ -70,7 +76,7 @@ public class IndexController {
     }
 
     @InitBinder("book")
-    void initBinder (DataBinder binder){
+    void initBinder(DataBinder binder) {
         binder.initDirectFieldAccess();
     }
 
@@ -80,13 +86,15 @@ public class IndexController {
 //    }
 
     @GetMapping("download")
-    public ModelAndView downloadAsXml(){
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("books", service.getBookList());
-        modelAndView.addObject("book", new Book("", "", ""));
-        System.out.println("hello");
-
-        return modelAndView;
+    public void downloadAsXml(HttpServletResponse response) throws IOException {
+        final Context context = new Context();
+        context.setVariable("books", service.getBookList());
+        final String xml = this.engine.process("booksxml.tmplt", context);
+        response.setHeader("Content-Disposition", "attachment; filename=exportBooks.xml");
+        response.setContentType("application/xml");
+        PrintWriter writer = response.getWriter();
+        writer.print(xml);
+        writer.close();
     }
 
 }
