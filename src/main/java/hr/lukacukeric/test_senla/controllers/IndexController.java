@@ -39,6 +39,7 @@ public class IndexController {
         ModelAndView modelAndView = new ModelAndView("index");
         service.loadResource(xmlDoc);
         modelAndView.addObject( "books", service.getBookList());
+        modelAndView.addObject("book", new Book("", "", ""));
         return modelAndView;
     }
 
@@ -52,6 +53,16 @@ public class IndexController {
         service.store(book);
         redirectAttributes.addFlashAttribute("message", "You successfully stored a new book");
         return "index";
+    }
+
+    @PostMapping("remove/{isbn}")
+    public ModelAndView removing(@PathVariable String isbn){
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("books", service.getBookList());
+        modelAndView.addObject("book", new Book("", "", ""));
+        service.remove(isbn);
+        return modelAndView;
+
     }
 
     @InitBinder("book")

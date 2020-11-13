@@ -16,6 +16,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -52,6 +53,12 @@ public class DefaultStorageService implements StorageService{
     @Override
     public Set<Book> getBookList() {
         return Collections.unmodifiableSet(books);
+    }
+
+    @Override
+    public void remove(String isbn) {
+        this.books=books.stream().filter(filteredIsbn ->
+                !filteredIsbn.getIsbn().equals(isbn)).collect(Collectors.toSet());
     }
 
     @Override

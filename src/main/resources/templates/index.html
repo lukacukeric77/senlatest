@@ -26,7 +26,7 @@
             <td th:text="${entry.title}"></td>
             <td th:text="${entry.author}"></td>
             <td><button>Edit</button></td>
-            <td><button>Delete</button></td>
+            <td><button th:action="@{/remove/{isbn} (isbn=*{entry.isbn})}">Delete</button></td>
         </tr>
     </table>
 
