@@ -27,6 +27,9 @@
             <td th:text="${entry.author}"></td>
         </tr>
     </table>
+
+<!--Adding  book form-->
+
 <div>
     <form method="post" th:action="@{/addBook}" th:object="${book}">
         <label> ISBN
@@ -44,7 +47,13 @@
         <button>Add Book</button>
     </form>
 </div>
+
+<!--Message for adding or refusal-->
+
 <div th:text="${message}"></div>
+
+<!--Exporting in XML-->
+
 <div>
     <form method="post" th:action="@{/download}">
         <button>Download in XML</button>

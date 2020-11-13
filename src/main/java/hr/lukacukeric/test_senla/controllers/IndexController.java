@@ -27,11 +27,17 @@ public class IndexController {
         this.service = service;
     }
 
+    @GetMapping
+    public ModelAndView defaultView(){
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("book", new Book("", "", ""));
+        return modelAndView;
+    }
+
     @PostMapping("upload")
     public ModelAndView downloadFile(@RequestParam("file") MultipartFile xmlDoc) throws ParserConfigurationException, IOException, SAXException {
         ModelAndView modelAndView = new ModelAndView("index");
         service.loadResource(xmlDoc);
-        modelAndView.addObject("book", new Book("", "", ""));
         modelAndView.addObject( "file", service.getBookList());
         return modelAndView;
     }
