@@ -58,9 +58,9 @@ public class IndexController {
     @PostMapping("remove/{isbn}")
     public ModelAndView removing(@PathVariable String isbn){
         ModelAndView modelAndView = new ModelAndView("index");
+        service.remove(isbn);
         modelAndView.addObject("books", service.getBookList());
         modelAndView.addObject("book", new Book("", "", ""));
-        service.remove(isbn);
         return modelAndView;
 
     }
