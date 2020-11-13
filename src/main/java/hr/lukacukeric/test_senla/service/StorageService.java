@@ -10,7 +10,7 @@ import java.util.List;
 public interface StorageService {
 
     void store(Book book);
-    void loadResource(MultipartFile filename);
+    Book loadResource(MultipartFile filename);
     MultipartFile createXml(List<Book> bookList);
 
 }

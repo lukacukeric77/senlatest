@@ -33,7 +33,7 @@ public class IndexController {
 
     @GetMapping
     public ModelAndView showContent(){
-        return new ModelAndView("index", "file", service.loadResource(null);
+        return new ModelAndView("index", "file", service.loadResource(null));
 
     }
     @PostMapping("addBook")
