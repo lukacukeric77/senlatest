@@ -25,7 +25,7 @@
             <td th:text="${entry.isbn}"></td>
             <td th:text="${entry.title}"></td>
             <td th:text="${entry.author}"></td>
-            <td><button>Edit</button></td>
+            <td><button>Edit</button></form></td>
             <td><form method="post" th:action="@{/remove/{isbn} (isbn=*{entry.isbn})}"><button>Delete</button></form></td>
         </tr>
     </table>
@@ -57,7 +57,7 @@
 <!--Exporting in XML-->
 
 <div th:if="${books} != null">
-    <form method="post" th:action="@{/download}">
+    <form method="get" th:action="@{/download}">
         <button>Download in XML</button>
     </form>
 </div>

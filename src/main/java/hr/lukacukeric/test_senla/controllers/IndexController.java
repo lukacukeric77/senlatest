@@ -79,10 +79,14 @@ public class IndexController {
 //        return new Book("", "", "");
 //    }
 
-    @PostMapping("download")
-    public String downloadAsXml(){
-        service.createXml(null);
-        return "index";
+    @GetMapping("download")
+    public ModelAndView downloadAsXml(){
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("books", service.getBookList());
+        modelAndView.addObject("book", new Book("", "", ""));
+        System.out.println("hello");
+
+        return modelAndView;
     }
 
 }
