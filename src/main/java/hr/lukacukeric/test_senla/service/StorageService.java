@@ -14,7 +14,7 @@ import java.util.List;
 public interface StorageService {
 
     void store(Book book);
-    void loadResource(File filename) throws ParserConfigurationException, IOException, SAXException;
+    void loadResource(MultipartFile file) throws ParserConfigurationException, IOException, SAXException;
     MultipartFile createXml(List<Book> bookList);
     List<Book> getBookList();
 }

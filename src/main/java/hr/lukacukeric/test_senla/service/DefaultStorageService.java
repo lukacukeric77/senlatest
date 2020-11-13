@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class DefaultStorageService implements StorageService{
@@ -29,10 +30,11 @@ public class DefaultStorageService implements StorageService{
     }
 
     @Override
-    public void loadResource(File filename) throws ParserConfigurationException, IOException, SAXException {
+    public void loadResource(MultipartFile file) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(filename);
+        Document document = builder.parse(file.getInputStream());
+
         NodeList nodeList = document.getDocumentElement().getChildNodes();
         for (var i = 0; i<nodeList.getLength(); i++){
             Node node = nodeList.item(i);

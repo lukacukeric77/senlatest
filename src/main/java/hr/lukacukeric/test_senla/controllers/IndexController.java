@@ -30,16 +30,12 @@ public class IndexController {
     }
 
     @PostMapping("upload")
-    public String downloadFile(@RequestParam("file") File xmlDoc) throws ParserConfigurationException, IOException, SAXException {
+    public ModelAndView downloadFile(@RequestParam("file") MultipartFile xmlDoc) throws ParserConfigurationException, IOException, SAXException {
         service.loadResource(xmlDoc);
-        return null;
-    }
-
-    @GetMapping
-    public ModelAndView showContent() throws ParserConfigurationException, IOException, SAXException {
         return new ModelAndView("index", "file", service.getBookList());
-
     }
+
+
     @PostMapping("addBook")
     public String addBook(@Valid Book book, Errors errors, RedirectAttributes redirectAttributes){
         if (errors.hasErrors()){
