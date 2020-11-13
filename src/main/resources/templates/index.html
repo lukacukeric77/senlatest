@@ -7,8 +7,8 @@
 <body>
 
 <div>
-    <form method="post" action="/download">
-        <label>
+    <form method="post" action="/upload">
+        <label> Upload file:
             <input type="file" name="file">
             <button>Upload</button>
         </label>
@@ -27,7 +27,16 @@
             <td th:text="${entry.author}"></td>
         </tr>
     </table>
-
+<div>
+    <form method="post" action="/add">
+        <button>Add Book</button>
+    </form>
+</div>
+<div>
+    <form method="post" action="/download">
+        <button>Download in XML</button>
+    </form>
+</div>
 
 </body>
 </html>
