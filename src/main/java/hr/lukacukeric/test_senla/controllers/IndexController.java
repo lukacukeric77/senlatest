@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.xml.sax.SAXException;
 
 import javax.validation.Valid;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/")
@@ -26,20 +29,20 @@ public class IndexController {
     }
 
     @PostMapping("upload")
-    public String downloadFile(@RequestParam("file") MultipartFile xmlDoc) {
+    public String downloadFile(@RequestParam("file") MultipartFile xmlDoc) throws ParserConfigurationException, IOException, SAXException {
         service.loadResource(xmlDoc);
         return null;
     }
 
     @GetMapping
-    public ModelAndView showContent(){
-        return new ModelAndView("index", "file", service.loadResource(null));
+    public ModelAndView showContent() throws ParserConfigurationException, IOException, SAXException {
+        return new ModelAndView("index", "file", service.getBookList(null));
 
     }
     @PostMapping("addBook")
     public String addBook(@Valid Book book, Errors errors, RedirectAttributes redirectAttributes){
         if (errors.hasErrors()){
-            redirectAttributes.addFlashAttribute("Error during upload");
+            redirectAttributes.addFlashAttribute("Error during adding");
             return "index";
         }
         service.store(book);
