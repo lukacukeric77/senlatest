@@ -45,14 +45,17 @@ public class IndexController {
 
 
     @PostMapping("addBook")
-    public String addBook(@Valid Book book, Errors errors, RedirectAttributes redirectAttributes){
+    public ModelAndView addBook(@Valid Book book, Errors errors, RedirectAttributes redirectAttributes){
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("books", service.getBookList());
+        modelAndView.addObject("book", new Book("", "", ""));
         if (errors.hasErrors()){
             redirectAttributes.addFlashAttribute("message", "Error during adding");
-            return "index";
+            return modelAndView;
         }
         service.store(book);
         redirectAttributes.addFlashAttribute("message", "You successfully stored a new book");
-        return "index";
+        return defaultView();
     }
 
     @PostMapping("remove/{isbn}")
