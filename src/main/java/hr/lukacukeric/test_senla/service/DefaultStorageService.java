@@ -15,18 +15,19 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 @Service
 public class DefaultStorageService implements StorageService{
 
-    private List<Book> books = new LinkedList<>();
+    private Set<Book> books = new LinkedHashSet<>();
 
     @Override
     public void store(Book book) {
-
+        if (!books.contains(book)){
+            books.add(book);
+        }
     }
 
     @Override
@@ -49,12 +50,12 @@ public class DefaultStorageService implements StorageService{
     }
 
     @Override
-    public List<Book> getBookList() {
-        return books;
+    public Set<Book> getBookList() {
+        return Collections.unmodifiableSet(books);
     }
 
     @Override
-    public MultipartFile createXml(List<Book> bookList) {
+    public MultipartFile createXml(Set<Book> bookList) {
         return null;
     }
 }

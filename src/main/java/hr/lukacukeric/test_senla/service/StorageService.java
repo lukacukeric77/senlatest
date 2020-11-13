@@ -10,11 +10,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 
 public interface StorageService {
 
     void store(Book book);
     void loadResource(MultipartFile file) throws ParserConfigurationException, IOException, SAXException;
-    MultipartFile createXml(List<Book> bookList);
-    List<Book> getBookList();
+    MultipartFile createXml(Set<Book> bookList);
+    Set<Book> getBookList();
 }

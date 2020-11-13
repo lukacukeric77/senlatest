@@ -7,7 +7,7 @@
 <body>
 
 <div>
-    <form method="post" enctype="multipart/form-data" action="/upload">
+    <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
         <label> Upload file:
             <input type="file" name="file">
             <button>Upload</button>
@@ -28,12 +28,25 @@
         </tr>
     </table>
 <div>
-    <form method="post" action="/addBook">
+    <form method="post" th:action="@{/addBook}" th:object="${book}">
+        <label> ISBN
+            <span th:errors="*{isbn}"></span>
+        <input th:field="*{isbn}">
+        </label>
+        <label> Title
+            <span th:errors="*{title}"></span>
+            <input th:field="*{title}">
+        </label>
+        <label> Author
+            <span th:errors="*{author}"></span>
+            <input th:field="*{author}">
+        </label>
         <button>Add Book</button>
     </form>
 </div>
+<div th:text="${message}"></div>
 <div>
-    <form method="post" action="/download">
+    <form method="post" th:action="@{/download}">
         <button>Download in XML</button>
     </form>
 </div>
