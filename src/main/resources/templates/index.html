@@ -25,28 +25,30 @@
             <td th:text="${entry.isbn}"></td>
             <td th:text="${entry.title}"></td>
             <td th:text="${entry.author}"></td>
+            <td><button>Edit</button></td>
+            <td><button>Delete</button></td>
         </tr>
     </table>
 
 <!--Adding and editing book form-->
 
-<div>
-    <form method="post" th:action="@{/addBook}" th:object="${book}">
-        <label> ISBN
-            <span th:errors="*{isbn}"></span>
-        <input th:field="*{isbn}">
-        </label>
-        <label> Title
-            <span th:errors="*{title}"></span>
-            <input th:field="*{title}">
-        </label>
-        <label> Author
-            <span th:errors="*{author}"></span>
-            <input th:field="*{author}">
-        </label>
-        <button>Add Book</button>
-    </form>
-</div>
+<!--<div>-->
+<!--    <form method="post" th:action="@{/addBook}" th:object="${book}">-->
+<!--        <label> ISBN-->
+<!--            <span th:errors="*{isbn}"></span>-->
+<!--        <input th:field="*{isbn}">-->
+<!--        </label>-->
+<!--        <label> Title-->
+<!--            <span th:errors="*{title}"></span>-->
+<!--            <input th:field="*{title}">-->
+<!--        </label>-->
+<!--        <label> Author-->
+<!--            <span th:errors="*{author}"></span>-->
+<!--            <input th:field="*{author}">-->
+<!--        </label>-->
+<!--        <button>Add Book</button>-->
+<!--    </form>-->
+<!--</div>-->
 
 <!--Message for adding or refusal-->
 
