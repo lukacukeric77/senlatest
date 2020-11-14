@@ -87,6 +87,20 @@ public class IndexController {
         modelAndView.addObject("editbook", service.getBookByIsbn(isbn));
         return modelAndView;
     }
+    @PostMapping(value = "edit/{isbn}/editing", params = "send")
+    public ModelAndView editSelectedBook(@PathVariable String isbn, @Valid Book editbook, Errors errors){
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("book", new Book("", "", ""));
+        if (errors.hasErrors()){
+            return modelAndView;
+        }
+        Book editBook = service.getBookByIsbn(isbn);
+        editBook.setIsbn(editbook.getIsbn());
+        editBook.setTitle(editbook.getTitle());
+        editBook.setAuthor(editbook.getAuthor());
+        modelAndView.addObject("books", service.getBookList());
+        return modelAndView;
+    }
 
     @InitBinder("book")
     void initBinder(DataBinder binder) {
