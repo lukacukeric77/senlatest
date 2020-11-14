@@ -2,6 +2,7 @@ package hr.lukacukeric.test_senla.controllers;
 
 import hr.lukacukeric.test_senla.domain.Book;
 import hr.lukacukeric.test_senla.service.StorageService;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Errors;
@@ -57,6 +58,7 @@ public class IndexController {
         }
         service.store(book);
         modelAndView.addObject("books", service.getBookList());
+        modelAndView.addObject("book", new Book("", "", "" ));
         return modelAndView;
     }
 
@@ -75,7 +77,15 @@ public class IndexController {
         modelAndView.addObject("books", service.getBookList());
         modelAndView.addObject("book", new Book("", "", ""));
         return modelAndView;
+    }
 
+    @GetMapping("edit/{isbn}")
+    public ModelAndView fillEditFields(@PathVariable String isbn){
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("book", new Book("", "", ""));
+        modelAndView.addObject("books", service.getBookList());
+        modelAndView.addObject("editbook", service.getBookByIsbn(isbn));
+        return modelAndView;
     }
 
     @InitBinder("book")
@@ -95,5 +105,7 @@ public class IndexController {
         writer.print(xml);
         writer.close();
     }
+
+
 
 }

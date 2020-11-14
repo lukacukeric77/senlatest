@@ -35,7 +35,7 @@
             <td th:text="${entry.title}"></td>
             <td th:text="${entry.author}"></td>
             <td>
-                <form action="get" th:action="@{/edit/{isbn} (isbn=*{entry.isbn})}"></form><button>Edit</button></form></td>
+                <form action="get" th:action="@{/edit/{isbn} (isbn=*{entry.isbn})}"><button>Edit</button></form></td>
             <td><form method="post" th:action="@{/remove/{isbn} (isbn=*{entry.isbn})}"><button>Delete</button></form></td>
         </tr>
     </table>
@@ -65,20 +65,20 @@
 
 <!--Editing-->
 
-<div th:object="${book}">
+<div th:if="${editbook}!=null" th:object="${editbook}">
 <h2>Editing</h2>
-    <form method="post" th:action="@{/edit/{isbn}/editing (isbn=*{isbn})}">
+    <form method="post" th:action="@{/edit/{isbn}/editing (isbn=${editbook.isbn})}">
         <label> ISBN
-            <span th:errors="*{isbn}"></span>
-            <input th:field="*{isbn}">
+            <span th:errors="${editbook.isbn}"></span>
+            <input th:field="${editbook.isbn}">
         </label>
         <label> Title
-            <span th:errors="*{title}"></span>
-            <input th:field="*{title}">
+            <span th:errors="${editbook.title}"></span>
+            <input th:field="${editbook.title}">
         </label>
         <label> Author
-            <span th:errors="*{author}"></span>
-            <input th:field="*{author}">
+            <span th:errors="${editbook.author}"></span>
+            <input th:field="${editbook.author}">
         </label>
         <button name="send">Send</button>
         <button name="cancel">Cancel</button>

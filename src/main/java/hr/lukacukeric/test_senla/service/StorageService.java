@@ -16,7 +16,8 @@ public interface StorageService {
 
     void store(Book book);
     void loadResource(MultipartFile file) throws ParserConfigurationException, IOException, SAXException;
-    MultipartFile createXml(Set<Book> bookList);
+
     Set<Book> getBookList();
     void remove(String isbn);
+    Book getBookByIsbn(String isbn);
 }
