@@ -101,6 +101,13 @@ public class IndexController {
         modelAndView.addObject("books", service.getBookList());
         return modelAndView;
     }
+    @PostMapping(value = "edit/{isbn}/editing", params = "cancel")
+    public ModelAndView cancelEditingOfSelectedBook(@PathVariable String isbn){
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("book", new Book("", "", ""));
+        modelAndView.addObject("books", service.getBookList());
+        return modelAndView;
+    }
 
     @InitBinder("book")
     void initBinder(DataBinder binder) {

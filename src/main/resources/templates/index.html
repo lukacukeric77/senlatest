@@ -24,21 +24,28 @@
     </form>
 </div>
 
-    <table th:if="${books} != null">
-        <tr>
-            <th>ISBN</th>
-            <th>Title</th>
-            <th>Author</th>
-        </tr>
-        <tr th:each="entry:${books}">
-            <td th:text="${entry.isbn}"></td>
-            <td th:text="${entry.title}"></td>
-            <td th:text="${entry.author}"></td>
-            <td>
-                <form action="get" th:action="@{/edit/{isbn} (isbn=*{entry.isbn})}"><button>Edit</button></form></td>
-            <td><form method="post" th:action="@{/remove/{isbn} (isbn=*{entry.isbn})}"><button>Delete</button></form></td>
-        </tr>
-    </table>
+<table th:if="${books} != null">
+    <tr>
+        <th>ISBN</th>
+        <th>Title</th>
+        <th>Author</th>
+    </tr>
+    <tr th:each="entry:${books}">
+        <td th:text="${entry.isbn}"></td>
+        <td th:text="${entry.title}"></td>
+        <td th:text="${entry.author}"></td>
+        <td>
+            <form action="get" th:action="@{/edit/{isbn} (isbn=*{entry.isbn})}">
+                <button>Edit</button>
+            </form>
+        </td>
+        <td>
+            <form method="post" th:action="@{/remove/{isbn} (isbn=*{entry.isbn})}">
+                <button>Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
 
 <!--Adding -->
 
@@ -47,7 +54,7 @@
     <form method="post" th:action="@{/addBook}" th:object="${book}">
         <label> ISBN
             <span th:errors="*{isbn}"></span>
-        <input th:field="*{isbn}">
+            <input th:field="*{isbn}">
         </label>
         <label> Title
             <span th:errors="*{title}"></span>
@@ -66,7 +73,7 @@
 <!--Editing-->
 
 <div th:if="${editbook}!=null" th:object="${editbook}">
-<h2>Editing</h2>
+    <h2>Editing</h2>
     <form method="post" th:action="@{/edit/{isbn}/editing (isbn=${editbook.isbn})}">
         <label> ISBN
             <span th:errors="${editbook.isbn}"></span>
