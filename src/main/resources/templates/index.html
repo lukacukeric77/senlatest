@@ -15,6 +15,15 @@
     </form>
 </div>
 
+
+<!--Exporting in XML-->
+
+<div th:if="${books} != null">
+    <form method="get" th:action="@{/download}">
+        <button>Download in XML</button>
+    </form>
+</div>
+
     <table th:if="${books} != null">
         <tr>
             <th>ISBN</th>
@@ -31,7 +40,7 @@
         </tr>
     </table>
 
-<!--Adding and editing book form-->
+<!--Adding -->
 
 <div>
     <h2>Adding</h2>
@@ -48,21 +57,13 @@
             <span th:errors="*{author}"></span>
             <input th:field="*{author}">
         </label>
-        <button>Add Book</button>
+        <button name="enter">Add Book</button>
+        <button name="cancel">Cancel</button>
     </form>
 </div>
 
-<!--Message for adding or refusal-->
 
-<div th:text="${message}"></div>
-
-<!--Exporting in XML-->
-
-<div th:if="${books} != null">
-    <form method="get" th:action="@{/download}">
-        <button>Download in XML</button>
-    </form>
-</div>
+<!--Editing-->
 
 <div th:object="${book}">
 <h2>Editing</h2>

@@ -48,17 +48,23 @@ public class IndexController {
     }
 
 
-    @PostMapping("addBook")
-    public ModelAndView addBook(@Valid Book book, Errors errors, RedirectAttributes redirectAttributes) {
+    @PostMapping(value = "addBook", params = "enter")
+    public ModelAndView addBook(@Valid Book book, Errors errors) {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("books", service.getBookList());
         if (errors.hasErrors()) {
-            redirectAttributes.addFlashAttribute("message", "Error during adding");
             return modelAndView;
         }
         service.store(book);
         modelAndView.addObject("books", service.getBookList());
-        redirectAttributes.addFlashAttribute("message", "You successfully stored a new book");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "addBook", params = "cancel")
+    public ModelAndView cancelAddBook(){
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("book", new Book("", "", ""));
+        modelAndView.addObject("books", service.getBookList());
         return modelAndView;
     }
 
