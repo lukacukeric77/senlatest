@@ -25,7 +25,8 @@
             <td th:text="${entry.isbn}"></td>
             <td th:text="${entry.title}"></td>
             <td th:text="${entry.author}"></td>
-            <td><button>Edit</button></form></td>
+            <td>
+                <form action="get" th:action="@{/edit/{isbn} (isbn=*{entry.isbn})}"></form><button>Edit</button></form></td>
             <td><form method="post" th:action="@{/remove/{isbn} (isbn=*{entry.isbn})}"><button>Delete</button></form></td>
         </tr>
     </table>
@@ -33,6 +34,7 @@
 <!--Adding and editing book form-->
 
 <div>
+    <h2>Adding</h2>
     <form method="post" th:action="@{/addBook}" th:object="${book}">
         <label> ISBN
             <span th:errors="*{isbn}"></span>
@@ -60,6 +62,27 @@
     <form method="get" th:action="@{/download}">
         <button>Download in XML</button>
     </form>
+</div>
+
+<div th:object="${book}">
+<h2>Editing</h2>
+    <form method="post" th:action="@{/edit/{isbn}/editing (isbn=*{isbn})}">
+        <label> ISBN
+            <span th:errors="*{isbn}"></span>
+            <input th:field="*{isbn}">
+        </label>
+        <label> Title
+            <span th:errors="*{title}"></span>
+            <input th:field="*{title}">
+        </label>
+        <label> Author
+            <span th:errors="*{author}"></span>
+            <input th:field="*{author}">
+        </label>
+        <button name="send">Send</button>
+        <button name="cancel">Cancel</button>
+    </form>
+
 </div>
 
 </body>

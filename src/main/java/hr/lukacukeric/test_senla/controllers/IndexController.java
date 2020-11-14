@@ -2,14 +2,12 @@ package hr.lukacukeric.test_senla.controllers;
 
 import hr.lukacukeric.test_senla.domain.Book;
 import hr.lukacukeric.test_senla.service.StorageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.DataBinder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.function.ServerResponse;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -18,7 +16,6 @@ import org.xml.sax.SAXException;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -80,16 +77,12 @@ public class IndexController {
         binder.initDirectFieldAccess();
     }
 
-//    @ModelAttribute("book")
-//    public Book createModel(){
-//        return new Book("", "", "");
-//    }
 
     @GetMapping("download")
     public void downloadAsXml(HttpServletResponse response) throws IOException {
         final Context context = new Context();
         context.setVariable("books", service.getBookList());
-        final String xml = this.engine.process("booksxml.tmplt", context);
+        final String xml = this.engine.process("books.xml", context);
         response.setHeader("Content-Disposition", "attachment; filename=exportBooks.xml");
         response.setContentType("application/xml");
         PrintWriter writer = response.getWriter();
