@@ -13,7 +13,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -59,7 +61,6 @@ public class DefaultStorageService implements StorageService {
 
     @Override
     public Book getBookByIsbn(String isbn) {
-        // there is no check for Optional presence because user chose the book from the list of books
         return books.stream().filter(book -> book.getIsbn().equals(isbn)).findAny().orElse(null);
     }
 }

@@ -6,6 +6,8 @@
 </head>
 <body>
 
+<!--Uploading XML-->
+
 <div>
     <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
         <label> Upload file:
@@ -23,6 +25,8 @@
         <button>Download in XML</button>
     </form>
 </div>
+
+<!-- Showing the data -->
 
 <table th:if="${books} != null">
     <tr>
@@ -47,7 +51,7 @@
     </tr>
 </table>
 
-<!--Adding -->
+<!--Adding-->
 
 <div>
     <h2>Adding</h2>
@@ -90,7 +94,6 @@
         <button name="send">Send</button>
         <button name="cancel">Cancel</button>
     </form>
-
 </div>
 
 </body>

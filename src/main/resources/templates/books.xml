@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Books>
     <Book th:each="entry:${books}" th:attr="isbn=${entry.isbn}" >
         <title th:text="${entry.title}"></title>

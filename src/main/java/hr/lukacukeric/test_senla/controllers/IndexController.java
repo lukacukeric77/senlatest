@@ -2,14 +2,11 @@ package hr.lukacukeric.test_senla.controllers;
 
 import hr.lukacukeric.test_senla.domain.Book;
 import hr.lukacukeric.test_senla.service.StorageService;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.DataBinder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.xml.sax.SAXException;
@@ -34,17 +31,14 @@ public class IndexController {
 
     @GetMapping
     public ModelAndView defaultView() {
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("book", new Book("", "", ""));
-        return modelAndView;
+        return indexEmptyAdd();
     }
 
     @PostMapping("upload")
     public ModelAndView downloadFile(@RequestParam("file") MultipartFile xmlDoc) throws ParserConfigurationException, IOException, SAXException {
-        ModelAndView modelAndView = new ModelAndView("index");
+        ModelAndView modelAndView = indexEmptyAdd();
         service.loadResource(xmlDoc);
         modelAndView.addObject("books", service.getBookList());
-        modelAndView.addObject("book", new Book("", "", ""));
         return modelAndView;
     }
 
@@ -52,46 +46,39 @@ public class IndexController {
     @PostMapping(value = "addBook", params = "enter")
     public ModelAndView addBook(@Valid Book book, Errors errors) {
         ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("books", service.getBookList());
         if (errors.hasErrors()) {
             return modelAndView;
         }
         service.store(book);
         modelAndView.addObject("books", service.getBookList());
-        modelAndView.addObject("book", new Book("", "", "" ));
+        modelAndView.addObject("book", new Book("", "", ""));
         return modelAndView;
     }
 
     @PostMapping(value = "addBook", params = "cancel")
-    public ModelAndView cancelAddBook(){
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("book", new Book("", "", ""));
-        modelAndView.addObject("books", service.getBookList());
-        return modelAndView;
+    public ModelAndView cancelAddBook() {
+        return indexEmptyAddListOfBooks();
     }
 
     @PostMapping("remove/{isbn}")
     public ModelAndView removing(@PathVariable String isbn) {
-        ModelAndView modelAndView = new ModelAndView("index");
+        ModelAndView modelAndView = indexEmptyAdd();
         service.remove(isbn);
         modelAndView.addObject("books", service.getBookList());
-        modelAndView.addObject("book", new Book("", "", ""));
         return modelAndView;
     }
 
     @GetMapping("edit/{isbn}")
-    public ModelAndView fillEditFields(@PathVariable String isbn){
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("book", new Book("", "", ""));
-        modelAndView.addObject("books", service.getBookList());
+    public ModelAndView fillEditFields(@PathVariable String isbn) {
+        ModelAndView modelAndView = indexEmptyAddListOfBooks();
         modelAndView.addObject("editbook", service.getBookByIsbn(isbn));
         return modelAndView;
     }
+
     @PostMapping(value = "edit/{isbn}/editing", params = "send")
-    public ModelAndView editSelectedBook(@PathVariable String isbn, @Valid Book editbook, Errors errors){
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("book", new Book("", "", ""));
-        if (errors.hasErrors()){
+    public ModelAndView editSelectedBook(@PathVariable String isbn, @Valid Book editbook, Errors errors) {
+        ModelAndView modelAndView = indexEmptyAdd();
+        if (errors.hasErrors()) {
             return modelAndView;
         }
         Book editBook = service.getBookByIsbn(isbn);
@@ -101,17 +88,10 @@ public class IndexController {
         modelAndView.addObject("books", service.getBookList());
         return modelAndView;
     }
-    @PostMapping(value = "edit/{isbn}/editing", params = "cancel")
-    public ModelAndView cancelEditingOfSelectedBook(@PathVariable String isbn){
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("book", new Book("", "", ""));
-        modelAndView.addObject("books", service.getBookList());
-        return modelAndView;
-    }
 
-    @InitBinder("book")
-    void initBinder(DataBinder binder) {
-        binder.initDirectFieldAccess();
+    @PostMapping(value = "edit/{isbn}/editing", params = "cancel")
+    public ModelAndView cancelEditingOfSelectedBook(@PathVariable String isbn) {
+        return indexEmptyAddListOfBooks();
     }
 
 
@@ -128,5 +108,18 @@ public class IndexController {
     }
 
 
+    // Private methods for DRY
+
+    private ModelAndView indexEmptyAdd(){
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("book", new Book("", "", ""));
+        return modelAndView;
+    }
+
+    private ModelAndView indexEmptyAddListOfBooks() {
+        ModelAndView modelAndView = indexEmptyAdd();
+        modelAndView.addObject("books", service.getBookList());
+        return modelAndView;
+    }
 
 }
