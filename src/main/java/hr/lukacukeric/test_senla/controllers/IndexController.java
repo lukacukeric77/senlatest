@@ -46,6 +46,7 @@ public class IndexController {
     @PostMapping(value = "addBook", params = "enter")
     public ModelAndView addBook(@Valid Book book, Errors errors) {
         ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("books", service.getBookList());
         if (errors.hasErrors()) {
             return modelAndView;
         }
@@ -77,14 +78,15 @@ public class IndexController {
 
     @PostMapping(value = "edit/{isbn}/editing", params = "send")
     public ModelAndView editSelectedBook(@PathVariable String isbn, @Valid Book editbook, Errors errors) {
-        ModelAndView modelAndView = indexEmptyAdd();
+        ModelAndView modelAndView = indexEmptyAddListOfBooks();
         if (errors.hasErrors()) {
             return modelAndView;
         }
-        Book editBook = service.getBookByIsbn(isbn);
-        editBook.setIsbn(editbook.getIsbn());
-        editBook.setTitle(editbook.getTitle());
-        editBook.setAuthor(editbook.getAuthor());
+        Book bookByIsbn = service.getBookByIsbn(isbn);
+        bookByIsbn.setIsbn(editbook.getIsbn());
+        bookByIsbn.setTitle(editbook.getTitle());
+        bookByIsbn.setAuthor(editbook.getAuthor());
+        modelAndView.addObject("book", new Book("", "", ""));
         modelAndView.addObject("books", service.getBookList());
         return modelAndView;
     }
