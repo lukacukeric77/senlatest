@@ -42,6 +42,7 @@ public class IndexController {
         return modelAndView;
     }
 
+    // ADD section
 
     @PostMapping(value = "addBook", params = "enter")
     public ModelAndView addBook(@Valid Book book, Errors errors) {
@@ -61,6 +62,8 @@ public class IndexController {
         return indexEmptyAddListOfBooks();
     }
 
+    // REMOVE section
+
     @PostMapping("remove/{isbn}")
     public ModelAndView removing(@PathVariable String isbn) {
         ModelAndView modelAndView = indexEmptyAdd();
@@ -68,6 +71,8 @@ public class IndexController {
         modelAndView.addObject("books", service.getBookList());
         return modelAndView;
     }
+
+    //EDIT section
 
     @GetMapping("edit/{isbn}")
     public ModelAndView fillEditFields(@PathVariable String isbn) {
@@ -80,6 +85,7 @@ public class IndexController {
     public ModelAndView editSelectedBook(@PathVariable String isbn, @Valid Book editbook, Errors errors) {
         ModelAndView modelAndView = indexEmptyAddListOfBooks();
         if (errors.hasErrors()) {
+            modelAndView.addObject("editbook", service.getBookByIsbn(isbn));
             return modelAndView;
         }
         Book bookByIsbn = service.getBookByIsbn(isbn);
@@ -96,6 +102,7 @@ public class IndexController {
         return indexEmptyAddListOfBooks();
     }
 
+    //DOWNLOAD section
 
     @GetMapping("download")
     public void downloadAsXml(HttpServletResponse response) throws IOException {
