@@ -60,6 +60,7 @@ public class IndexController {
         service.store(book);
         modelAndView.addObject("books", service.getBookList());
         modelAndView.addObject("book", new Book("", "", ""));
+        modelAndView.addObject(new WordSearch(""));
         return modelAndView;
     }
 
