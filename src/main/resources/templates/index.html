@@ -23,14 +23,16 @@
 <!--Exporting in XML-->
 
 <div th:if="${books} != null">
+    <div th:if="${!books.isEmpty()}">
     <form method="get" th:action="@{/download}">
         <button>Download in XML</button>
     </form>
+    </div>
 </div>
 
 <!-- Showing the data -->
-
-<table th:if="${books} != null">
+<div th:if="${books} != null">
+<table th:if="${!books.isEmpty()}">
     <tr>
         <th>ISBN</th>
         <th>Title</th>
@@ -52,25 +54,23 @@
         </td>
     </tr>
 </table>
-
+</div>
 <!--Sorting-->
 
 <div th:if="${books} != null">
+    <div th:if="${!books.isEmpty()}">
     <form method="get" th:action="@{/sortByIsbn}">
         <button>Sort By ISBN</button>
     </form>
-</div>
 
-<div th:if="${books} != null">
     <form method="get" th:action="@{/sortByTitle}">
         <button>Sort By Title</button>
     </form>
-</div>
 
-<div th:if="${books} != null">
     <form method="get" th:action="@{/sortByAuthor}">
         <button>Sort By Author</button>
     </form>
+</div>
 </div>
 
 <!--Adding-->
@@ -121,6 +121,7 @@
 
 <!--Search-->
 <h2>Searching</h2>
+<h4>WARNING! Search in this stadium is case-sensitive!</h4>
 <div>
     <form th:action="@{/search}" method="get" th:object="${wordSearch}">
         <label>Enter search:
