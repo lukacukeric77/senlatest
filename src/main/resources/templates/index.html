@@ -18,6 +18,7 @@
     </form>
 </div>
 
+<h1 th:if="${warning}">Please, choose the file!</h1>
 
 <!--Exporting in XML-->
 
@@ -81,19 +82,30 @@
     <h2>Editing</h2>
     <form method="post" th:action="@{/edit/{isbn}/editing (isbn=${editbook.isbn})}">
         <label> ISBN
-            <span th:errors="${editbook.isbn}"></span>
-            <input th:field="${editbook.isbn}">
+            <span th:errors="*{isbn}"></span>
+            <input th:field="*{isbn}">
         </label>
         <label> Title
-            <span th:errors="${editbook.title}"></span>
-            <input th:field="${editbook.title}">
+            <span th:errors="*{title}"></span>
+            <input th:field="*{title}">
         </label>
         <label> Author
-            <span th:errors="${editbook.author}"></span>
-            <input th:field="${editbook.author}">
+            <span th:errors="*{author}"></span>
+            <input th:field="*{author}">
         </label>
         <button name="send">Send</button>
         <button name="cancel">Cancel</button>
+    </form>
+</div>
+
+<!--Search-->
+<h2>Searching</h2>
+<div>
+    <form th:action="@{/search}" method="get" th:object="${wordSearch}">
+        <label>Enter search:
+            <input th:field="*{searchedWord}"></label>
+            <span th:errors="*{searchedWord}"></span>
+        <button>Search/Retrieve to original</button>
     </form>
 </div>
 

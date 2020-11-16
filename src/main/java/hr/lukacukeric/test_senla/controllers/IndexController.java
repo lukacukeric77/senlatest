@@ -1,6 +1,7 @@
 package hr.lukacukeric.test_senla.controllers;
 
 import hr.lukacukeric.test_senla.domain.Book;
+import hr.lukacukeric.test_senla.form.WordSearch;
 import hr.lukacukeric.test_senla.service.StorageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/")
@@ -38,7 +40,11 @@ public class IndexController {
     public ModelAndView downloadFile(@RequestParam("file") MultipartFile xmlDoc) throws ParserConfigurationException, IOException, SAXException {
         ModelAndView modelAndView = indexEmptyAdd();
         service.loadResource(xmlDoc);
-        modelAndView.addObject("books", service.getBookList());
+        Set<Book> bookSet = service.getBookList();
+        if (bookSet.isEmpty()){
+            modelAndView.addObject("warning", true);
+        }
+        modelAndView.addObject("books", bookSet);
         return modelAndView;
     }
 
@@ -116,12 +122,22 @@ public class IndexController {
         writer.close();
     }
 
+    @GetMapping("search")
+    public ModelAndView search(@Valid WordSearch wordSearch, Errors errors){
+        ModelAndView modelAndView = indexEmptyAddListOfBooks();
+        if (errors.hasErrors()){
+            return modelAndView;
+        }
+        return modelAndView.addObject("books", service.findFromSearch(wordSearch.getSearchedWord()));
+    }
+
 
     // Private methods for DRY
 
     private ModelAndView indexEmptyAdd(){
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("book", new Book("", "", ""));
+        modelAndView.addObject(new WordSearch(""));
         return modelAndView;
     }
 

@@ -15,4 +15,5 @@ public interface StorageService {
     Set<Book> getBookList();
     void remove(String isbn);
     Book getBookByIsbn(String isbn);
+    Set<Book> findFromSearch(String word);
 }

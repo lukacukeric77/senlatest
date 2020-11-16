@@ -30,19 +30,21 @@ public class DefaultStorageService implements StorageService {
 
     @Override
     public void loadResource(MultipartFile file) throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(file.getInputStream());
+        if (!file.isEmpty()) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(file.getInputStream());
 
-        NodeList nodeList = document.getDocumentElement().getChildNodes();
-        for (var i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                String isbn = element.getAttributes().getNamedItem("isbn").getNodeValue();
-                String title = element.getElementsByTagName("Title").item(0).getChildNodes().item(0).getNodeValue();
-                String author = element.getElementsByTagName("Author").item(0).getChildNodes().item(0).getNodeValue();
-                books.add(new Book(isbn, title, author));
+            NodeList nodeList = document.getDocumentElement().getChildNodes();
+            for (var i = 0; i < nodeList.getLength(); i++) {
+                Node node = nodeList.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    String isbn = element.getAttributes().getNamedItem("isbn").getNodeValue();
+                    String title = element.getElementsByTagName("Title").item(0).getChildNodes().item(0).getNodeValue();
+                    String author = element.getElementsByTagName("Author").item(0).getChildNodes().item(0).getNodeValue();
+                    books.add(new Book(isbn, title, author));
+                }
             }
         }
     }
@@ -62,5 +64,10 @@ public class DefaultStorageService implements StorageService {
     @Override
     public Book getBookByIsbn(String isbn) {
         return books.stream().filter(book -> book.getIsbn().equals(isbn)).findAny().orElse(null);
+    }
+
+    @Override
+    public Set<Book> findFromSearch(String word) {
+        return books.stream().filter(book -> book.getIsbn().contains(word) || book.getAuthor().contains(word) || book.getTitle().contains(word)).collect(Collectors.toSet());
     }
 }
