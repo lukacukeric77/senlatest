@@ -63,7 +63,7 @@ public class DefaultStorageService implements StorageService {
 
     @Override
     public Book getBookByIsbn(String isbn) {
-        return books.stream().filter(book -> book.getIsbn().equals(isbn)).findAny().orElse(null);
+        return books.stream().filter(book -> book.getIsbn().equals(isbn)).findAny().orElse(null); // I could "dare" to other here null because this is in EDIT and ISBN is therefore ALWAYS set
     }
 
     @Override
