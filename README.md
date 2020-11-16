@@ -30,13 +30,13 @@ Bonus part: add search and sort capabilities to the table.
 How to launch a project?
 
 If using IDE (IntelliJ):
-File - New - Project from version control
-Apply URL of this project
-"Clone"
-When you have all the files, press green arrow or Shift+F9
+- File - New - Project from version control
+- Apply URL of this project
+- "Clone"
+- When you have all the files, press green arrow or Shift+F9
 
 If using command line
-Download as zip, extract the content in directory
-Navigate to that directory (you will know you are in right place when you see a file mvnw.cmd there)
-Type "mvnw.cmd spring-boot:run"(without "")
-In browser, go to "localhost:8080" to see the file
+- Download as zip, extract the content in directory
+- Navigate to that directory (you will know you are in right place when you see a file mvnw.cmd there)
+- Type "mvnw.cmd spring-boot:run"(without "")
+- In browser, go to "localhost:8080" to see the app
