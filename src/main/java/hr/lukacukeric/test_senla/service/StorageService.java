@@ -17,4 +17,7 @@ public interface StorageService {
     Book getBookByIsbn(String isbn);
     Set<Book> findFromSearch(String word);
     Boolean searchForPossibleCopyOfISBN(String isbn);
+    Set<Book> sortByISBN();
+    Set<Book> sortByTitle();
+    Set<Book> sortByAuthor();
 }

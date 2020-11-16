@@ -31,6 +31,8 @@ public class IndexController {
         this.engine = engine;
     }
 
+//    TABLE section
+
     @GetMapping
     public ModelAndView defaultView() {
         return indexEmptyAdd();
@@ -45,6 +47,27 @@ public class IndexController {
             modelAndView.addObject("warning", true);
         }
         modelAndView.addObject("books", bookSet);
+        return modelAndView;
+    }
+
+    @GetMapping("sortByIsbn")
+    public ModelAndView sortByIsdn(){
+        ModelAndView modelAndView = indexEmptyAddListOfBooks();
+        modelAndView.addObject("books",service.sortByISBN());
+        return modelAndView;
+    }
+
+    @GetMapping("sortByTitle")
+    public ModelAndView sortByTitle(){
+        ModelAndView modelAndView = indexEmptyAddListOfBooks();
+        modelAndView.addObject("books",service.sortByTitle());
+        return modelAndView;
+    }
+
+    @GetMapping("sortByAuthor")
+    public ModelAndView sortByAuthor(){
+        ModelAndView modelAndView = indexEmptyAddListOfBooks();
+        modelAndView.addObject("books",service.sortByAuthor());
         return modelAndView;
     }
 

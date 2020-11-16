@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class DefaultStorageService implements StorageService {
 
-    private Set<Book> books = new LinkedHashSet<>();
+    private Set<Book> books;
 
     @Override
     public void store(Book book) {
@@ -31,6 +32,7 @@ public class DefaultStorageService implements StorageService {
     @Override
     public void loadResource(MultipartFile file) throws ParserConfigurationException, IOException, SAXException {
         if (!file.isEmpty()) {
+            books = new LinkedHashSet<>();
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document document = builder.parse(file.getInputStream());
@@ -74,5 +76,21 @@ public class DefaultStorageService implements StorageService {
     @Override
     public Boolean searchForPossibleCopyOfISBN(String isbn) {
         return books.stream().anyMatch(book -> book.getIsbn().contains(isbn));
+    }
+
+
+    @Override
+    public Set<Book> sortByISBN() {
+        return books.stream().sorted(Book.sortByIsbn()).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    @Override
+    public Set<Book> sortByTitle() {
+        return books.stream().sorted(Book.sortByTitle()).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    @Override
+    public Set<Book> sortByAuthor() {
+        return books.stream().sorted(Book.sortByAuthor()).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }

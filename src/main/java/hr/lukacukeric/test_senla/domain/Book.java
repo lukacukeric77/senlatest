@@ -1,6 +1,7 @@
 package hr.lukacukeric.test_senla.domain;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.Comparator;
 
 public class Book {
 
@@ -40,6 +41,19 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
+
+    public static Comparator<Book> sortByIsbn(){
+return Comparator.comparing(Book::getIsbn);
+    }
+
+    public static Comparator<Book> sortByTitle(){
+        return Comparator.comparing(Book::getTitle);
+    }
+
+    public static Comparator<Book> sortByAuthor(){
+        return Comparator.comparing(Book::getAuthor);
+    }
+
 
     @Override
     public boolean equals(Object o) {

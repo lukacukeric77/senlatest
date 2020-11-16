@@ -53,6 +53,26 @@
     </tr>
 </table>
 
+<!--Sorting-->
+
+<div th:if="${books} != null">
+    <form method="get" th:action="@{/sortByIsbn}">
+        <button>Sort By ISBN</button>
+    </form>
+</div>
+
+<div th:if="${books} != null">
+    <form method="get" th:action="@{/sortByTitle}">
+        <button>Sort By Title</button>
+    </form>
+</div>
+
+<div th:if="${books} != null">
+    <form method="get" th:action="@{/sortByAuthor}">
+        <button>Sort By Author</button>
+    </form>
+</div>
+
 <!--Adding-->
 
 <div>
