@@ -68,7 +68,9 @@ public class DefaultStorageService implements StorageService {
 
     @Override
     public Set<Book> findFromSearch(String word) {
-        return books.stream().filter(book -> book.getIsbn().contains(word) || book.getAuthor().contains(word) || book.getTitle().contains(word)).collect(Collectors.toSet());
+        return books.stream().filter(book -> book.getIsbn().toLowerCase().contains(word.toLowerCase())
+                || book.getAuthor().toLowerCase().contains(word.toLowerCase()) || book.getTitle().toLowerCase().contains(word.toLowerCase()))
+                .collect(Collectors.toSet());
     }
 
     @Override
