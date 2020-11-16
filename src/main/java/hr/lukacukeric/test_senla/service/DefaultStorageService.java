@@ -70,4 +70,9 @@ public class DefaultStorageService implements StorageService {
     public Set<Book> findFromSearch(String word) {
         return books.stream().filter(book -> book.getIsbn().contains(word) || book.getAuthor().contains(word) || book.getTitle().contains(word)).collect(Collectors.toSet());
     }
+
+    @Override
+    public Boolean searchForPossibleCopyOfISBN(String isbn) {
+        return books.stream().anyMatch(book -> book.getIsbn().contains(isbn));
+    }
 }

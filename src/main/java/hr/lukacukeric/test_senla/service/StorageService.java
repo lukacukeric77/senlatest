@@ -16,4 +16,5 @@ public interface StorageService {
     void remove(String isbn);
     Book getBookByIsbn(String isbn);
     Set<Book> findFromSearch(String word);
+    Boolean searchForPossibleCopyOfISBN(String isbn);
 }

@@ -54,13 +54,15 @@ public class IndexController {
     public ModelAndView addBook(@Valid Book book, Errors errors) {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("books", service.getBookList());
+        modelAndView.addObject(new WordSearch(""));
         if (errors.hasErrors()) {
             return modelAndView;
+        } else if (service.searchForPossibleCopyOfISBN(book.getIsbn())){
+            modelAndView.addObject("addingWarning", true);
         }
         service.store(book);
         modelAndView.addObject("books", service.getBookList());
         modelAndView.addObject("book", new Book("", "", ""));
-        modelAndView.addObject(new WordSearch(""));
         return modelAndView;
     }
 
