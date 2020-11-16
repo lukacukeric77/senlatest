@@ -38,5 +38,5 @@ If using IDE (IntelliJ):
 If using command line
 - Download as zip, extract the content in directory
 - Navigate to that directory (you will know you are in right place when you see a file mvnw.cmd there)
-- Type "mvnw.cmd spring-boot:run"(without "")
+- Type "mvnw spring-boot:run"(without "")
 - In browser, go to "localhost:8080" to see the app
