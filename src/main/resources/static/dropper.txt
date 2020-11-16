@@ -1,0 +1,2 @@
+This is a file that ensures that CSS is separate folder. The problem is, when you have ONLY ONE file in CSS folder, static automatically renames itself and creates problems.
+In case of more folders (like JS or Errors or Images), this file would be obsolete and erased.
