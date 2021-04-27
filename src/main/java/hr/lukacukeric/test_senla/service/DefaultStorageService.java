@@ -29,7 +29,8 @@ public class DefaultStorageService implements StorageService {
     }
 
     @Override
-    public void loadResource(MultipartFile file) throws ParserConfigurationException, IOException, SAXException {
+    public void loadResource(MultipartFile file)
+        throws ParserConfigurationException, IOException, SAXException {
         if (!file.isEmpty()) {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -41,8 +42,10 @@ public class DefaultStorageService implements StorageService {
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
                     String isbn = element.getAttributes().getNamedItem("isbn").getNodeValue();
-                    String title = element.getElementsByTagName("Title").item(0).getChildNodes().item(0).getNodeValue();
-                    String author = element.getElementsByTagName("Author").item(0).getChildNodes().item(0).getNodeValue();
+                    String title = element.getElementsByTagName("Title").item(0).getChildNodes()
+                        .item(0).getNodeValue();
+                    String author = element.getElementsByTagName("Author").item(0).getChildNodes()
+                        .item(0).getNodeValue();
                     books.add(new Book(isbn, title, author));
                 }
             }
@@ -57,20 +60,23 @@ public class DefaultStorageService implements StorageService {
     @Override
     public void remove(String isbn) {
         this.books = books.stream().filter(filteredIsbn ->
-                !filteredIsbn.getIsbn().equals(isbn)).collect(Collectors.toSet());
+            !filteredIsbn.getIsbn().equals(isbn)).collect(Collectors.toSet());
     }
 
 
     @Override
     public Book getBookByIsbn(String isbn) {
-        return books.stream().filter(book -> book.getIsbn().equals(isbn)).findAny().orElse(null); // I could "dare" to other here null because this is in EDIT and ISBN is therefore ALWAYS set
+        return books.stream().filter(book -> book.getIsbn().equals(isbn)).findAny().orElse(
+            null); // I could "dare" to other here null because this is in EDIT and ISBN is therefore ALWAYS set
     }
 
     @Override
     public Set<Book> findFromSearch(String word) {
-        return books.stream().filter(book -> book.getIsbn().toLowerCase().contains(word.toLowerCase())
-                || book.getAuthor().toLowerCase().contains(word.toLowerCase()) || book.getTitle().toLowerCase().contains(word.toLowerCase()))
-                .collect(Collectors.toSet());
+        return books.stream()
+            .filter(book -> book.getIsbn().toLowerCase().contains(word.toLowerCase())
+                || book.getAuthor().toLowerCase().contains(word.toLowerCase()) || book.getTitle()
+                .toLowerCase().contains(word.toLowerCase()))
+            .collect(Collectors.toSet());
     }
 
     @Override
@@ -81,16 +87,19 @@ public class DefaultStorageService implements StorageService {
 
     @Override
     public Set<Book> sortByISBN() {
-        return books.stream().sorted(Book.sortByIsbn()).collect(Collectors.toCollection(LinkedHashSet::new));
+        return books.stream().sorted(Book.sortByIsbn())
+            .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Override
     public Set<Book> sortByTitle() {
-        return books.stream().sorted(Book.sortByTitle()).collect(Collectors.toCollection(LinkedHashSet::new));
+        return books.stream().sorted(Book.sortByTitle())
+            .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Override
     public Set<Book> sortByAuthor() {
-        return books.stream().sorted(Book.sortByAuthor()).collect(Collectors.toCollection(LinkedHashSet::new));
+        return books.stream().sorted(Book.sortByAuthor())
+            .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 }

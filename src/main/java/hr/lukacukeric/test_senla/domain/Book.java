@@ -42,23 +42,27 @@ public class Book {
         this.author = author;
     }
 
-    public static Comparator<Book> sortByIsbn(){
-return Comparator.comparing(Book::getIsbn);
+    public static Comparator<Book> sortByIsbn() {
+        return Comparator.comparing(Book::getIsbn);
     }
 
-    public static Comparator<Book> sortByTitle(){
+    public static Comparator<Book> sortByTitle() {
         return Comparator.comparing(Book::getTitle);
     }
 
-    public static Comparator<Book> sortByAuthor(){
+    public static Comparator<Book> sortByAuthor() {
         return Comparator.comparing(Book::getAuthor);
     }
 
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Book)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Book)) {
+            return false;
+        }
 
         Book book = (Book) o;
 

@@ -1,84 +1,85 @@
-body{
-    margin: 0;
-    padding: 0;
-    background: #e0e1c4
+body {
+  margin: 0;
+  padding: 0;
+  background: #e0e1c4
 }
 
-.container{
-    display: grid;
-    grid-template-columns: 800px;
-    justify-content: center;
-    align-items: center;
-    font-family: sans-serif;
+.container {
+  display: grid;
+  grid-template-columns: 800px;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
 }
 
-div.sortingButtons form{
-    padding: 2px;
-    display: inline-block;
+div.sortingButtons form {
+  padding: 2px;
+  display: inline-block;
 }
 
-input{
-    display: block;
-    margin-top: 0.2em;
-    margin-bottom: 1em;
-    font-size: 1.1em;
+input {
+  display: block;
+  margin-top: 0.2em;
+  margin-bottom: 1em;
+  font-size: 1.1em;
 }
 
-#uploadButton{
-    background-color: lightblue;
-    padding: 5px;
-    text-align: center;
-}
-#downloadButton{
-    background-color: lightcoral;
-    padding: 5px;
-    text-align: center;
+#uploadButton {
+  background-color: lightblue;
+  padding: 5px;
+  text-align: center;
 }
 
-table{
-    margin-top: 1em;
+#downloadButton {
+  background-color: lightcoral;
+  padding: 5px;
+  text-align: center;
+}
+
+table {
+  margin-top: 1em;
 }
 
 table, th, td {
-    border: 1px solid silver;
-    border-collapse: collapse;
+  border: 1px solid silver;
+  border-collapse: collapse;
 }
 
 thead {
-    color: black;
-    background-color: white;
+  color: black;
+  background-color: white;
 }
 
 td, th {
-    padding-left: 0.2em;
-    padding-right: 0.2em;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
 }
 
 th {
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
 }
 
 tbody tr:nth-child(even) {
-    background-color: #FAFAFA;
+  background-color: #FAFAFA;
 }
 
 tbody tr:nth-child(odd) {
-    background-color: #E6E6E6;
+  background-color: #E6E6E6;
 }
 
-.warning{
-    font-style: normal;
-    color: red;
+.warning {
+  font-style: normal;
+  color: red;
 }
 
-.downloadSection{
-    margin: 0.2em;
+.downloadSection {
+  margin: 0.2em;
 }
 
-.searchingSection{
-    margin-top: 1em;
-    padding: 0;
+.searchingSection {
+  margin-top: 1em;
+  padding: 0;
 }
 
 

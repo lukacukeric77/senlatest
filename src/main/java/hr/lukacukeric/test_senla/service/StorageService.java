@@ -11,13 +11,23 @@ import java.util.Set;
 public interface StorageService {
 
     void store(Book book);
-    void loadResource(MultipartFile file) throws ParserConfigurationException, IOException, SAXException;
+
+    void loadResource(MultipartFile file)
+        throws ParserConfigurationException, IOException, SAXException;
+
     Set<Book> getBookList();
+
     void remove(String isbn);
+
     Book getBookByIsbn(String isbn);
+
     Set<Book> findFromSearch(String word);
+
     Boolean searchForPossibleCopyOfISBN(String isbn);
+
     Set<Book> sortByISBN();
+
     Set<Book> sortByTitle();
+
     Set<Book> sortByAuthor();
 }

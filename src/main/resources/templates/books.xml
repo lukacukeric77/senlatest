@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Books>
-    <Book th:each="entry:${books}" th:attr="isbn=${entry.isbn}">
-        <Title th:text="${entry.title}"></Title>
-        <Author th:text="${entry.author}"></Author>
-    </Book>
+  <Book th:each="entry:${books}" th:attr="isbn=${entry.isbn}">
+    <Title th:text="${entry.title}"></Title>
+    <Author th:text="${entry.author}"></Author>
+  </Book>
 </Books>

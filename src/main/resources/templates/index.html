@@ -1,139 +1,139 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Books</title>
-    <link th:href="@{/css/testsenla.css}" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Books</title>
+  <link th:href="@{/css/testsenla.css}" rel="stylesheet">
 </head>
 <body>
 
 <!--Uploading XML-->
 <div class="container">
-    <div>
-        <h2>File manipulation</h2>
-        <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
-            <label> Upload file:
-                <input type="file" name="file">
-                <button id="uploadButton">Upload</button>
-            </label>
-        </form>
+  <div>
+    <h2>File manipulation</h2>
+    <form method="post" enctype="multipart/form-data" th:action="@{/upload}">
+      <label> Upload file:
+        <input type="file" name="file">
+        <button id="uploadButton">Upload</button>
+      </label>
+    </form>
+  </div>
+
+  <h1 th:if="${warning}" class="warning">Please, choose the file!</h1>
+
+  <!-- Showing the data -->
+  <div th:if="${books} != null">
+    <table th:if="${!books.isEmpty()}">
+      <tr>
+        <th>ISBN</th>
+        <th>Title</th>
+        <th>Author</th>
+      </tr>
+      <tr th:each="entry:${books}">
+        <td th:text="${entry.isbn}"></td>
+        <td th:text="${entry.title}"></td>
+        <td th:text="${entry.author}"></td>
+        <td>
+          <form action="get" th:action="@{/edit/{isbn} (isbn=*{entry.isbn})}">
+            <button>Edit</button>
+          </form>
+        </td>
+        <td>
+          <form method="post" th:action="@{/remove/{isbn} (isbn=*{entry.isbn})}">
+            <button>Delete</button>
+          </form>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <!--Sorting-->
+
+  <div th:if="${books} != null">
+    <div th:if="${!books.isEmpty()}" class="sortingButtons">
+      <form method="get" th:action="@{/sortByIsbn}">
+        <button>Sort By ISBN</button>
+      </form>
+
+      <form method="get" th:action="@{/sortByTitle}">
+        <button>Sort By Title</button>
+      </form>
+
+      <form method="get" th:action="@{/sortByAuthor}">
+        <button>Sort By Author</button>
+      </form>
     </div>
+  </div>
 
-    <h1 th:if="${warning}" class="warning">Please, choose the file!</h1>
+  <!--Exporting in XML-->
 
-    <!-- Showing the data -->
-    <div th:if="${books} != null">
-        <table th:if="${!books.isEmpty()}">
-            <tr>
-                <th>ISBN</th>
-                <th>Title</th>
-                <th>Author</th>
-            </tr>
-            <tr th:each="entry:${books}">
-                <td th:text="${entry.isbn}"></td>
-                <td th:text="${entry.title}"></td>
-                <td th:text="${entry.author}"></td>
-                <td>
-                    <form action="get" th:action="@{/edit/{isbn} (isbn=*{entry.isbn})}">
-                        <button>Edit</button>
-                    </form>
-                </td>
-                <td>
-                    <form method="post" th:action="@{/remove/{isbn} (isbn=*{entry.isbn})}">
-                        <button>Delete</button>
-                    </form>
-                </td>
-            </tr>
-        </table>
+  <div th:if="${books} != null">
+    <div th:if="${!books.isEmpty()}" class="downloadSection">
+      <form method="get" th:action="@{/download}">
+        <button id="downloadButton">Download in XML</button>
+      </form>
     </div>
-    <!--Sorting-->
+  </div>
 
-    <div th:if="${books} != null">
-        <div th:if="${!books.isEmpty()}" class="sortingButtons">
-            <form method="get" th:action="@{/sortByIsbn}">
-                <button>Sort By ISBN</button>
-            </form>
+  <!--Adding-->
 
-            <form method="get" th:action="@{/sortByTitle}">
-                <button>Sort By Title</button>
-            </form>
-
-            <form method="get" th:action="@{/sortByAuthor}">
-                <button>Sort By Author</button>
-            </form>
-        </div>
+  <div>
+    <h2>Adding</h2>
+    <div class="adding">
+      <form method="post" th:action="@{/addBook}" th:object="${book}">
+        <label> ISBN
+          <span th:errors="*{isbn}" class="warning"></span>
+          <input th:field="*{isbn}">
+        </label>
+        <label> Title
+          <span th:errors="*{title}" class="warning"></span>
+          <input th:field="*{title}">
+        </label>
+        <label> Author
+          <span th:errors="*{author}" class="warning"></span>
+          <input th:field="*{author}">
+        </label>
+        <button name="enter">Add Book</button>
+        <button name="cancel">Cancel</button>
+      </form>
     </div>
-
-    <!--Exporting in XML-->
-
-    <div th:if="${books} != null">
-        <div th:if="${!books.isEmpty()}" class="downloadSection">
-            <form method="get" th:action="@{/download}">
-                <button id="downloadButton">Download in XML</button>
-            </form>
-        </div>
-    </div>
-
-    <!--Adding-->
-
-    <div>
-        <h2>Adding</h2>
-        <div class="adding">
-            <form method="post" th:action="@{/addBook}" th:object="${book}">
-                <label> ISBN
-                    <span th:errors="*{isbn}" class="warning"></span>
-                    <input th:field="*{isbn}">
-                </label>
-                <label> Title
-                    <span th:errors="*{title}" class="warning"></span>
-                    <input th:field="*{title}">
-                </label>
-                <label> Author
-                    <span th:errors="*{author}" class="warning"></span>
-                    <input th:field="*{author}">
-                </label>
-                <button name="enter">Add Book</button>
-                <button name="cancel">Cancel</button>
-            </form>
-        </div>
-        <h3 th:if="${addingWarning}" class="warning">Cannot add, ISBN already exists.</h3>
-    </div>
+    <h3 th:if="${addingWarning}" class="warning">Cannot add, ISBN already exists.</h3>
+  </div>
 
 
-    <!--Editing-->
+  <!--Editing-->
 
-    <div th:if="${editbook}!=null" th:object="${editbook}">
-        <h2>Editing</h2>
-        <form method="post" th:action="@{/edit/{isbn}/editing (isbn=${editbook.isbn})}">
-            <label> ISBN
-                <span th:errors="*{isbn}" class="warning"></span>
-                <input th:field="*{isbn}">
-            </label>
-            <label> Title
-                <span th:errors="*{title}" class="warning"></span>
-                <input th:field="*{title}">
-            </label>
-            <label> Author
-                <span th:errors="*{author}" class="warning"></span>
-                <input th:field="*{author}">
-            </label>
-            <button name="send">Send</button>
-            <button name="cancel">Cancel</button>
-        </form>
-    </div>
+  <div th:if="${editbook}!=null" th:object="${editbook}">
+    <h2>Editing</h2>
+    <form method="post" th:action="@{/edit/{isbn}/editing (isbn=${editbook.isbn})}">
+      <label> ISBN
+        <span th:errors="*{isbn}" class="warning"></span>
+        <input th:field="*{isbn}">
+      </label>
+      <label> Title
+        <span th:errors="*{title}" class="warning"></span>
+        <input th:field="*{title}">
+      </label>
+      <label> Author
+        <span th:errors="*{author}" class="warning"></span>
+        <input th:field="*{author}">
+      </label>
+      <button name="send">Send</button>
+      <button name="cancel">Cancel</button>
+    </form>
+  </div>
 
-    <!--Search-->
-    <div class="searchingSection">
+  <!--Search-->
+  <div class="searchingSection">
     <h2>Searching</h2>
     <div>
-        <form th:action="@{/search}" method="get" th:object="${wordSearch}">
-            <label>Enter search:
-                <input th:field="*{searchedWord}"></label>
-            <span th:errors="*{searchedWord}"></span>
-            <button>Search/Return to original</button>
-        </form>
+      <form th:action="@{/search}" method="get" th:object="${wordSearch}">
+        <label>Enter search:
+          <input th:field="*{searchedWord}"></label>
+        <span th:errors="*{searchedWord}"></span>
+        <button>Search/Return to original</button>
+      </form>
     </div>
-    </div>
+  </div>
 </div>
 </body>
 </html>

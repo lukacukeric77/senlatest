@@ -39,11 +39,12 @@ public class IndexController {
     }
 
     @PostMapping("upload")
-    public ModelAndView downloadFile(@RequestParam("file") MultipartFile xmlDoc) throws ParserConfigurationException, IOException, SAXException {
+    public ModelAndView downloadFile(@RequestParam("file") MultipartFile xmlDoc)
+        throws ParserConfigurationException, IOException, SAXException {
         ModelAndView modelAndView = indexEmptyAdd();
         service.loadResource(xmlDoc);
         Set<Book> bookSet = service.getBookList();
-        if (bookSet.isEmpty()){
+        if (bookSet.isEmpty()) {
             modelAndView.addObject("warning", true);
         }
         modelAndView.addObject("books", bookSet);
@@ -51,23 +52,23 @@ public class IndexController {
     }
 
     @GetMapping("sortByIsbn")
-    public ModelAndView sortByIsdn(){
+    public ModelAndView sortByIsdn() {
         ModelAndView modelAndView = indexEmptyAddListOfBooks();
-        modelAndView.addObject("books",service.sortByISBN());
+        modelAndView.addObject("books", service.sortByISBN());
         return modelAndView;
     }
 
     @GetMapping("sortByTitle")
-    public ModelAndView sortByTitle(){
+    public ModelAndView sortByTitle() {
         ModelAndView modelAndView = indexEmptyAddListOfBooks();
-        modelAndView.addObject("books",service.sortByTitle());
+        modelAndView.addObject("books", service.sortByTitle());
         return modelAndView;
     }
 
     @GetMapping("sortByAuthor")
-    public ModelAndView sortByAuthor(){
+    public ModelAndView sortByAuthor() {
         ModelAndView modelAndView = indexEmptyAddListOfBooks();
-        modelAndView.addObject("books",service.sortByAuthor());
+        modelAndView.addObject("books", service.sortByAuthor());
         return modelAndView;
     }
 
@@ -80,7 +81,7 @@ public class IndexController {
         modelAndView.addObject(new WordSearch(""));
         if (errors.hasErrors()) {
             return modelAndView;
-        } else if (service.searchForPossibleCopyOfISBN(book.getIsbn())){
+        } else if (service.searchForPossibleCopyOfISBN(book.getIsbn())) {
             modelAndView.addObject("addingWarning", true);
         }
         service.store(book);
@@ -114,7 +115,8 @@ public class IndexController {
     }
 
     @PostMapping(value = "edit/{isbn}/editing", params = "send")
-    public ModelAndView editSelectedBook(@PathVariable String isbn, @Valid Book editbook, Errors errors) {
+    public ModelAndView editSelectedBook(@PathVariable String isbn, @Valid Book editbook,
+        Errors errors) {
         ModelAndView modelAndView = indexEmptyAddListOfBooks();
         if (errors.hasErrors()) {
             modelAndView.addObject("editbook", service.getBookByIsbn(isbn));
@@ -149,18 +151,18 @@ public class IndexController {
     }
 
     @GetMapping("search")
-    public ModelAndView search(@Valid WordSearch wordSearch, Errors errors){
+    public ModelAndView search(@Valid WordSearch wordSearch, Errors errors) {
         ModelAndView modelAndView = indexEmptyAddListOfBooks();
-        if (errors.hasErrors()){
+        if (errors.hasErrors()) {
             return modelAndView;
         }
-        return modelAndView.addObject("books", service.findFromSearch(wordSearch.getSearchedWord()));
+        return modelAndView
+            .addObject("books", service.findFromSearch(wordSearch.getSearchedWord()));
     }
-
 
     // Private methods for DRY
 
-    private ModelAndView indexEmptyAdd(){
+    private ModelAndView indexEmptyAdd() {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("book", new Book("", "", ""));
         modelAndView.addObject(new WordSearch(""));
